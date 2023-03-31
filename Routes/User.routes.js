@@ -6,7 +6,8 @@ const userRouter = express.Router();
 const {usermodel} = require("../Models/User.model");
 const {passport} = require("../Configs/google.Oauth")
 const fs = require("fs")
-const {client}= require("../redis/redis")
+const {client}= require("../redis/redis");
+const { authenticate } = require("../Middlewares/authenticate");
 const app = express();
 app.use(express.json());
 
@@ -58,8 +59,8 @@ userRouter.post("/login",async (req,res)=>{
 
         const ref_token = await jwt.sign({email,userID:isUser._id},process.env.ref_token_key,{expiresIn:"7d"});
 
-             client.SET("user_token",token);
-             client.EXPIRE("user_token", 86400);
+             client.SET(`${token}`,token);
+             client.EXPIRE(`${token}`, 86400);
 
         res.status(200).send({msg:"Login Successfull",token,ref_token})
     }
@@ -84,20 +85,34 @@ userRouter.get(
     }),
     function (req, res) {
       console.log(req.user);
+      // token bhejna hai and then redirect karn hai
       res.redirect("/");
     }
   );
 
 
-  
-userRouter.post("/logout",async (req, res) => {
-    const token = await client.GET("user_token");
-    await client.RPUSH("blacklist",token);
+  //Logout
+userRouter.post("/logout",authenticate,async (req, res) => {
+    const token =  req.headers.authorization.split(" ")[1];
+    const tokenredis = await client.GET(`${token}`);
+    await client.RPUSH("blacklist",tokenredis);
     res.send("Logged out successfully");
 })
 
 
 
+// Profile edit 
+userRouter.patch("/editprofile",authenticate,async(req,res)=>{
+    const {fname,lname,mobile,avatar,dob,address,userid} = req.body;
+    const _id=userid
+    try{
+        const userdata = await usermodel.findByIdAndUpdate(_id,{fname,lname,mobile,avatar,dob,address},{returnOriginal:false});
+        res.send({msg:`Update Successfully`,userdata})
+    }
+    catch(e){
+        res.send({msg:e.message})
+    }   
+});
 
 
 module.exports={

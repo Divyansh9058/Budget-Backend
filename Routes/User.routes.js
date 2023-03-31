@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken")
 const userRouter = express.Router();
 const {usermodel} = require("../Models/User.model");
+const {passport} = require("../Configs/google.Oauth")
 const fs = require("fs")
 const {client}= require("../redis/redis")
 const app = express();
@@ -69,10 +70,30 @@ userRouter.post("/login",async (req,res)=>{
 );
 
 
+userRouter.get(
+    "/auth/google",
+    passport.authenticate("google", { scope: ["email", "profile"] })
+  );
+  
+  // callback url after login with google
+userRouter.get(
+    "/auth/google/callback",
+    passport.authenticate("google", {
+      failureRedirect: "/login",
+      session: false,
+    }),
+    function (req, res) {
+      console.log(req.user);
+      res.redirect("/");
+    }
+  );
+
+
+  
 userRouter.post("/logout",async (req, res) => {
     const token = await client.GET("user_token");
     await client.RPUSH("blacklist",token);
-    res.send({msg:"Logged out successfully"});
+    res.send("Logged out successfully");
 })
 
 

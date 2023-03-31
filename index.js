@@ -1,8 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const cors = require("cors");
 const {client}= require("./redis/redis")
 require("dotenv").config()
+const cors = require("cors");
 const {userRouter}= require("./Routes/User.routes")
 const {incomeRouter} = require("./Routes/Income.routes")
 const {expenseRouter} = require("./Routes/Expenses.routes");
@@ -11,18 +11,16 @@ const {authenticate}= require("./Middlewares/authenticate")
 
 const app= express()
 app.use(cors());
-
 app.use(express.json());
 
+
 app.use("/user",userRouter);
-app.use(authenticate);
-app.use("/income",incomeRouter)
-app.use("/expense",expenseRouter)
-
-
 app.get("/",(req,res)=>{
     res.send("data....")
 });
+app.use(authenticate);
+app.use("/income",incomeRouter)
+app.use("/expense",expenseRouter)
 
 
 app.listen(process.env.PORT,async ()=>{

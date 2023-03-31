@@ -22,8 +22,11 @@ passport.use(
         avatar: profile.photos[0].value,
       });
       console.log(profile)
+
+      const isPresent = await usermodel.findOne({email}) 
+      if(!isPresent) {
         await User.save();
-      
+      }
       return cb(null, User);
     }
   )

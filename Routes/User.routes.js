@@ -72,7 +72,7 @@ userRouter.post("/login",async (req,res)=>{
 userRouter.post("/logout",async (req, res) => {
     const token = await client.GET("user_token");
     await client.RPUSH("blacklist",token);
-    res.send("Logged out successfully");
+    res.send({msg:"Logged out successfully"});
 })
 
 

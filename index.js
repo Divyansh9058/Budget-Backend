@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
 const {client}= require("./redis/redis")
 require("dotenv").config()
 const {userRouter}= require("./Routes/User.routes")
@@ -9,8 +10,9 @@ const {connection} = require("./Configs/db")
 const {authenticate}= require("./Middlewares/authenticate")
 
 const app= express()
-app.use(express.json());
+app.use(cors());
 
+app.use(express.json());
 
 app.use("/user",userRouter);
 app.use(authenticate);

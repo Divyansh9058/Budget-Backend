@@ -17,7 +17,7 @@ passport.use(
       const User = new usermodel({
         googleId: profile.id,
         fname: profile.displayName,
-        email: emails[0].value,
+        email: profile.emails[0].value,
         password: uuid(),
         avatar: profile.photos[0].value,
       });

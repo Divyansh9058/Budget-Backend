@@ -61,8 +61,8 @@ userRouter.post("/login",async (req,res)=>{
 
              client.SET(`${token}`,token);
              client.EXPIRE(`${token}`, 86400);
-
-        res.status(200).send({msg:"Login Successfull",token,ref_token})
+        
+        res.status(200).send({msg:"Login Successfull",token,ref_token,user:isUser})
     }
     catch(err){
         res.status(500).send(err.message)

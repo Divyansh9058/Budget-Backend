@@ -11,7 +11,7 @@ const { authenticate } = require("../Middlewares/authenticate");
 const app = express();
 app.use(express.json());
 
-
+const {cookieparser} = require("./Income.routes")
 
 
 
@@ -46,6 +46,9 @@ userRouter.post("/login",async (req,res)=>{
         const {email,password} = req.body;
 
         const isUser = await usermodel.findOne({email});
+
+        res.cookie(`userID`,`${isUser._id}`)
+
         if(!isUser){
            return res.status(400).send({msg:"SignUp Please then login"})
         }
@@ -61,7 +64,7 @@ userRouter.post("/login",async (req,res)=>{
 
              client.SET(`${token}`,token);
              client.EXPIRE(`${token}`, 86400);
-        
+            
         const {fname,lname} = isUser
         const user = {fname,lname,email}
         res.status(200).send({msg:"Login Successfull",token,ref_token,user})
@@ -89,12 +92,13 @@ userRouter.get(
     function (req, res) {
       console.log(req.user);
       // token bhejna hai and then redirect karn hai
-      
       res.redirect("/loginwelcome");
     }
-    );
-    
-    
+  );
+
+//   userRouter.get("/loginwelcome",(req,res)=>{
+//         res.sendFile(path.join(__dirname,"../Frontend/Html/Landingpage.html"));
+//   })
 
   //Logout
 userRouter.post("/logout",authenticate,async (req, res) => {

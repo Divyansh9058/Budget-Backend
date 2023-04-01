@@ -18,13 +18,11 @@ app.get("/",(req,res)=>{
     res.send("data....")
 });
 
-app.get("/loginwelcome", async (req,res)=>{
-    // const token = await jwt.sign({email,userID:isUser._id},process.env.token_key,{expiresIn:"1d"});
-    // client.SET(`${token}`,token);
-    // client.EXPIRE(`${token}`, 86400);
-    res.sendFile(path.join(__dirname,"../Frontend/Html/Landingpage.html"));
-    // res.redirect("./Frontend/Html/Landingpage.html")
+app.get("/loginwelcome", (req,res)=>{
+
+    res.send("Hello We are Here")
 })
+
 
 app.use(authenticate);
 app.use("/income",incomeRouter)

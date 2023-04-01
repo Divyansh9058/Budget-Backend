@@ -11,7 +11,7 @@ const {authenticate}= require("./Middlewares/authenticate")
 const app= express()
 app.use(cors());
 app.use(express.json());
-
+const {path} = require("path")
 
 app.use("/user",userRouter);
 app.get("/",(req,res)=>{
@@ -22,7 +22,8 @@ app.get("/loginwelcome", async (req,res)=>{
     // const token = await jwt.sign({email,userID:isUser._id},process.env.token_key,{expiresIn:"1d"});
     // client.SET(`${token}`,token);
     // client.EXPIRE(`${token}`, 86400);
-    res.sendFile(path.join(__dirname,"./Frontend/Html/Landingpage.html"));
+    res.sendFile(path.join(__dirname,"../Frontend/Html/Landingpage.html"));
+    // res.redirect("./Frontend/Html/Landingpage.html")
 })
 
 app.use(authenticate);

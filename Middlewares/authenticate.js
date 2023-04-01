@@ -4,12 +4,15 @@ const {client}= require("../redis/redis")
 
 
 const authenticate =  async (req, res, next) => {
-    const token = req.headers.authorization.split(" ")[1];
-    const tokenredis = await client.GET(`${token}`);
+
     
     if(!tokenredis || !token || token!==tokenredis){
-       return res.send({msg:"Please Login Again"})
+        return res.send({msg:"Please Login Again"})
     }
+    const token = req.headers.authorization.split(" ")[1];
+
+    const tokenredis = await client.GET(`${token}`);
+    
     const blacklisteddata= await client.LRANGE("blacklist",0,-1);
 
     if(blacklisteddata.includes(token)){

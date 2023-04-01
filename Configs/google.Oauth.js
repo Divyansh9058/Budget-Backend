@@ -23,10 +23,10 @@ passport.use(
       });
       console.log(profile)
 
-      const isPresent = await usermodel.findOne({email:profile.emails[0].value}) 
-      if(!isPresent) {
-        await User.save();
-      }
+      // const isPresent = await usermodel.findOne({email:profile.emails[0].value}) 
+      // if(!isPresent) {
+      // }
+      await User.save();
       return cb(null, User);
     }
   )

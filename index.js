@@ -20,9 +20,9 @@ app.get("/",(req,res)=>{
 });
 
 app.get("/loginwelcome", async (req,res)=>{
-    const token = await jwt.sign({email,userID:isUser._id},process.env.token_key,{expiresIn:"1d"});
-    client.SET(`${token}`,token);
-    client.EXPIRE(`${token}`, 86400);
+    // const token = await jwt.sign({email,userID:isUser._id},process.env.token_key,{expiresIn:"1d"});
+    // client.SET(`${token}`,token);
+    // client.EXPIRE(`${token}`, 86400);
     res.sendFile(path.join(__dirname,"../Frontend/Html/Landingpage.html"));
 })
 

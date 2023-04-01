@@ -89,13 +89,12 @@ userRouter.get(
     function (req, res) {
       console.log(req.user);
       // token bhejna hai and then redirect karn hai
+      
       res.redirect("/loginwelcome");
     }
-  );
-
-  userRouter.get("/loginwelcome",(req,res)=>{
-        res.sendFile(path.join(__dirname,"../Frontend/Html/Landingpage.html"));
-  })
+    );
+    
+    
 
   //Logout
 userRouter.post("/logout",authenticate,async (req, res) => {

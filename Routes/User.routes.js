@@ -73,6 +73,7 @@ userRouter.post("/login",async (req,res)=>{
 );
 
 
+
 userRouter.get(
     "/auth/google",
     passport.authenticate("google", { scope: ["email", "profile"] })
@@ -88,10 +89,13 @@ userRouter.get(
     function (req, res) {
       console.log(req.user);
       // token bhejna hai and then redirect karn hai
-      res.redirect("/");
+      res.redirect("/loginwelcome");
     }
   );
 
+  userRouter.get("/loginwelcome",(req,res)=>{
+        res.sendFile(path.join(__dirname,"../Frontend/Html/Landingpage.html"));
+  })
 
   //Logout
 userRouter.post("/logout",authenticate,async (req, res) => {

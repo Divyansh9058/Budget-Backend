@@ -8,7 +8,6 @@ const {incomeRouter} = require("./Routes/Income.routes")
 const {expenseRouter} = require("./Routes/Expenses.routes");
 const {connection} = require("./Configs/db")
 const {authenticate}= require("./Middlewares/authenticate")
-
 const app= express()
 app.use(cors());
 app.use(express.json());

@@ -66,8 +66,8 @@ incomeRouter.delete('/delete/:id',async(req,res)=>{
 });
 
 incomeRouter.get("/filterdata",async(req,res)=>{
-    const{Sdate,Edate}=req.body;
-    const userid=req.cookies.userID
+    const{Sdate,Edate,userid}=req.body;
+    
     try {
         let sdate= new Date(Sdate).toISOString();
     let edate= new Date(Edate).toISOString();

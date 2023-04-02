@@ -10,7 +10,7 @@ const { isModuleNamespaceObject } = require("util/types");
 const cookieparser = require("cookie-parser") 
 const app = express();
 app.use(express.json());
-
+app.use(cors());
 
 
 incomeRouter.get("/",async(req,res)=>{

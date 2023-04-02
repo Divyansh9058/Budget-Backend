@@ -65,7 +65,7 @@ incomeRouter.delete('/delete/:id',async(req,res)=>{
     }
 });
 
-incomeRouter.get("/filterdata",async(req,res)=>{
+incomeRouter.post("/filterdata",async(req,res)=>{
     const{Sdate,Edate,userid}=req.body;
     
     try {

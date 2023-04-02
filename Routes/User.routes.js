@@ -127,7 +127,7 @@ userRouter.patch("/editprofile",authenticate,async(req,res)=>{
     const _id=userid
     try{
         const userdata = await usermodel.findByIdAndUpdate(_id,{fname,lname,mobile,avatar,dob,address},{returnOriginal:false});
-        res.send({msg:`Update Successfully`,userdata})
+        res.send({msg:`Update Successfully`,fname,lname,mobile,avatar,dob,address,userid})
     }
     catch(e){
         res.send({msg:e.message})

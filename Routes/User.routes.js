@@ -47,13 +47,14 @@ userRouter.post("/login",async (req,res)=>{
 
         const isUser = await usermodel.findOne({email});
 
-        res.cookie(`userID`,`${isUser._id}`)
-
+        
         if(!isUser){
-           return res.status(400).send({msg:"SignUp Please then login"})
+            return res.status(400).send({msg:"SignUp Please then login"})
         }
-
+        res.cookie(`userID`,`${isUser._id}`)
+        
         const isPassword = await bcrypt.compareSync(password,isUser.password)
+        
         if(!isPassword){
             return res.status(400).send({msg:"Worng Password"})
         }

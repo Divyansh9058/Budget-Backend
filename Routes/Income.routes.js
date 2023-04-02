@@ -24,7 +24,7 @@ incomeRouter.get("/",async(req,res)=>{
 });
 
 incomeRouter.post("/addincome",async (req,res)=>{
-    let {title,type,amount}=req.body;
+    let {title,type,amount,userid}=req.body;
     // const userid=req.cookies.userID
     try{
          const income = new incomemodel({

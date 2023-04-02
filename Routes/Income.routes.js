@@ -14,7 +14,7 @@ app.use(express.json());
 
 
 incomeRouter.get("/",async(req,res)=>{
-     const userid = req.body;
+     const {userid} = req.body;
      try {
         const userdata= await incomemodel.find({userID:userid});
         res.send(userdata)

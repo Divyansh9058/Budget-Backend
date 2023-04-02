@@ -50,12 +50,12 @@ userRouter.post("/login",async (req,res)=>{
         res.cookie(`userID`,`${isUser._id}`)
 
         if(!isUser){
-           return res.status(400).json({msg:"SignUp Please then login"})
+           return res.status(400).send({msg:"SignUp Please then login"})
         }
 
         const isPassword = await bcrypt.compareSync(password,isUser.password)
         if(!isPassword){
-            return res.status(400).json({msg:"Worng Password"})
+            return res.status(400).send({msg:"Worng Password"})
         }
 
         const token = await jwt.sign({email,userID:isUser._id},process.env.token_key,{expiresIn:"1d"});

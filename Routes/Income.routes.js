@@ -58,7 +58,7 @@ incomeRouter.delete('/delete/:id',async(req,res)=>{
     try{
     const incomeID=req.params.id;
     await incomemodel.findByIdAndDelete({_id:incomeID})
-    res.send({"msg":`note with id:${incomeID} has been deleted`})
+    res.send({"msg":`Income with id:${incomeID} has been deleted`})
     }
     catch(err){
         res.send({msg:err.message})

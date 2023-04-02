@@ -54,7 +54,7 @@ userRouter.post("/login",async (req,res)=>{
         res.cookie(`userID`,`${isUser._id}`)
         
         const isPassword = await bcrypt.compareSync(password,isUser.password)
-        
+
         if(!isPassword){
             return res.status(400).send({msg:"Worng Password"})
         }
@@ -109,7 +109,17 @@ userRouter.post("/logout",authenticate,async (req, res) => {
     res.send("Logged out successfully");
 })
 
-
+userRouter.get("/profile",authenticate,async (req,res)=>{
+    try{
+        const {userid} = req.body;
+    const userdata = await usermodel.findById({_id:userid});
+    const {fname,lname,email,mobile,avatar,dob,address}  = userdata
+        res.send({fname,lname,email,mobile,avatar,dob,address})
+    }
+    catch(err) {
+        res.send({msg:"Something went wrong to fetch user's data"})
+    }
+})
 
 // Profile edit 
 userRouter.patch("/editprofile",authenticate,async(req,res)=>{

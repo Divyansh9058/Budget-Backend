@@ -45,10 +45,10 @@ userRouter.post("/login",async (req,res)=>{
     try{
         const {email,password} = req.body;
 
-        const isUser = await usermodel.findOne({email,password});
+        const isUser = await usermodel.findOne({email});
 
         
-        if(!isUser.email){
+        if(!isUser){
             return res.status(400).send({msg:"SignUp Please then login"})
         }
         res.cookie(`userID`,`${isUser._id}`)

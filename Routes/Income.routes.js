@@ -47,7 +47,7 @@ incomeRouter.patch("/editincome/:id",async (req,res)=>{
         const id=req.params.id;
         const payload=req.body;
         await incomemodel.findByIdAndUpdate(id,payload)
-        res.send({"msg":`Income with id:${id} has been updated`})
+        res.send({"msg":`Income updated`})
     } catch (error) {
         res.send({msg:"something went wrong",error:error.message})
     

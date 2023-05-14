@@ -6,12 +6,17 @@ const cors = require("cors");
 const {userRouter}= require("./Routes/User.routes")
 const {incomeRouter} = require("./Routes/Income.routes")
 const {expenseRouter} = require("./Routes/Expenses.routes");
-const {connection} = require("./Configs/db")
-const {authenticate}= require("./Middlewares/authenticate")
+const {connection} = require("./Configs/db");
+const {authenticate}= require("./Middlewares/authenticate");
 const app= express()
 app.use(cors());
 app.use(express.json());
 
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+  });
 
 app.use("/user",userRouter);
 app.get("/",(req,res)=>{

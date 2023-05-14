@@ -3,6 +3,7 @@ require("dotenv").config();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken")
 const userRouter = express.Router();
+const cors= require("cors");
 const {usermodel} = require("../Models/User.model");
 const {passport} = require("../Configs/google.Oauth")
 const fs = require("fs")
@@ -10,8 +11,11 @@ const {client}= require("../redis/redis");
 const { authenticate } = require("../Middlewares/authenticate");
 const app = express();
 app.use(express.json());
+app.use(cors())
+userRouter.use(cors())
 
-const {cookieparser} = require("./Income.routes")
+const {cookieparser} = require("./Income.routes");
+const { request } = require("http");
 
 
 
@@ -80,9 +84,11 @@ userRouter.post("/login",async (req,res)=>{
 
 userRouter.get(
     "/auth/google",
-    passport.authenticate("google", { scope: ["email", "profile"] })
+    passport.authenticate("google", { scope: ["profile", "email"] })
   );
   
+
+
   // callback url after login with google
 userRouter.get(
     "/auth/google/callback",
@@ -93,13 +99,12 @@ userRouter.get(
     function (req, res) {
       console.log(req.user);
       // token bhejna hai and then redirect karn hai
-      res.redirect("/loginwelcome");
+    //   res.redirect(`http://127.0.0.1:5501/Frontend/Html/Dashboard.html?&email=${user.email}&id=${token}&first_name=${user.first_name}&last_name=${user.last_name}`);
+      res.send("hiii")
     }
   );
 
-//   userRouter.get("/loginwelcome",(req,res)=>{
-//         res.sendFile(path.join(__dirname,"../Frontend/Html/Landingpage.html"));
-//   })
+
 
   //Logout
 userRouter.post("/logout",authenticate,async (req, res) => {
@@ -112,6 +117,7 @@ userRouter.post("/logout",authenticate,async (req, res) => {
 userRouter.get("/profile",authenticate,async (req,res)=>{
     try{
         const {userid} = req.body;
+        console.log(userid)
     const userdata = await usermodel.findById({_id:userid});
     const {fname,lname,email,mobile,avatar,dob,address}  = userdata
         res.send({fname,lname,email,mobile,avatar,dob,address})
@@ -138,3 +144,7 @@ userRouter.patch("/editprofile",authenticate,async(req,res)=>{
 module.exports={
     userRouter
 }
+
+
+
+// file:///C:/Users/aamma/Desktop/akash%20important/Budget%20management/Frontend/Html/Login.html

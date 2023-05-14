@@ -29,7 +29,8 @@ expenseRouter.post("/addexpense",async (req,res)=>{
             title,
             type,
             amount,
-            userID:userid
+            userID:userid,
+            method:"expense"
          });
          await expense.save();
          res.send({msg:"expense has added"});
@@ -66,8 +67,9 @@ expenseRouter.delete('/delete/:id',async(req,res)=>{
     }
 });
 
+
 expenseRouter.post("/filterdata",async(req,res)=>{
-    const{Sdate,Edate,userid}=req.body;
+   const{Sdate,Edate,userid}=req.body;
     try {
         let sdate= new Date(Sdate).toISOString();
     let edate= new Date(Edate).toISOString();
